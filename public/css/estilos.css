@@ -1,0 +1,105 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#LoginRegister{
+    width: 100vw;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+header{
+    padding: 5px;
+    padding-right: 40px;
+    padding-left: 40px;
+    /* border-bottom: 1px solid rgb(207, 207, 207); */
+}
+footer{
+    margin-top: 20px;
+    background-color: rgb(26, 26, 26);
+    bottom: 0;
+    width: 100%;
+}
+#footerWrapper{
+    background-color: rgb(26, 26, 26);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mainContent{
+    display: flex;
+    padding: 50px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.msg{
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 10px;
+    background-color: rgb(170, 206, 170);
+    color: green;
+    text-align: center;
+}
+#msg{
+    
+    width: 100%;
+    margin-bottom: 0;
+    padding: 10px;
+    background-color: rgb(170, 206, 170);
+    color: green;
+    text-align: center;
+}
+.profileArea{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+    border-radius: 25px;
+    border: 2px solid rgb(207, 207, 207);
+    background-color: rgb(255, 255, 255);
+    background-size: 100%;
+    background-position: center;
+}
+.profilePicture{
+    width: 40px;
+    height: 40px;
+}
+.imgContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+
+    
+    padding: 2px;
+}
+.imgContainer img{
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+}
+.editForm{
+    width: 60%;
+    padding: 10px;
+}
+.flexcenter{
+    flex-direction: column;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
