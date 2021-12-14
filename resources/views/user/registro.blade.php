@@ -20,6 +20,10 @@
                     <label for="Username">User name</label>
                     <input type="text" name='Username' id='Username' class="form-control">
                 </div>
+                <div class="form-group">
+                    <label for="Nome_Completo">Nome completo</label>
+                    <input type="text" name='Nome_Completo' id='Nome_Completo' class="form-control">
+                </div>
                 
                 <div class="form-group">
                     <label for="Email">Email</label>

@@ -29,20 +29,22 @@
                     <ion-icon name="analytics" style='width:50px;height:50px;color:black'></ion-icon>
                 </a>
             </div>
+            
+
+            <ul class="navbar-nav" >
+            @auth
             <form action="/searchPerfil" method="get">
                 <input type="text" name="search" id="search" class='form-control' placeholder='Procurar perfil...'>
             </form>
-
-            <ul class="navbar-nav">
-            @auth
                 @if(Auth::user()->isAdmin == 1)
                     <li class="nav-item">
                             <a href="/tabelaDeUsuarios" class="nav-link">Gerenciar usuarios</a>
                     </li>
                 @endif
                 <li class="nav-item">
-                    <a href="/tabelaDeUsuarios" class="nav-link">Publicações</a>
+                    <a href="/createPub" class="nav-link">Publicações</a>
                 </li>
+                
                 <li class="nav-item">
                     <form action="/logout" method='post' >
                         @csrf 
@@ -52,13 +54,41 @@
                         >Logout</a>
                     </form>
                 </li>
-                <a href="/tabelaDeUsuarios/editUser/{{Auth::user()->id}}">
-                <li class="profileArea nav-item" style="
-                    background-image:url('/img/profilePictures/{{Auth::user()->image}}')
-                
-                ">
+                <li class="nav-item liHeader"  >
+                    @if(count($queryNotifications)>0)
+                        <ion-icon id='not' style='width:30px; height: 30px;color:red;' name="apps"></ion-icon>
+                    @else
+                        <ion-icon id='not' style='width:30px; height: 30px;' name="apps"></ion-icon>
+                    @endif
+                    
                 </li>
+                <a href="/profile">
+                    <li class="profileArea nav-item" style="
+                        background-image:url('/img/profilePictures/{{Auth::user()->image}}')
+                    ">
+                    </li>
                 </a>
+                <div class="notificationsBox" id='notifications'>
+                    <div id='closeNotBox' style='
+                        display:flex;
+                        justify-content:flex-end;
+                        '><ion-icon style='width:20px;height:20px' name="close"></ion-icon></div>
+                    <div class='flexContainerNot'>
+                        <h2 style='margin-top:5px'>Notificações</h2>
+                        <ul id='listaNot'>
+                            @foreach($queryNotifications as $not)
+                                @if($not->visualized < 1)
+                                <form action="/visualizarNotificação/{{$not->id}}" style='width:100%' method="get">
+                                        <li onclick="this.closest('form').submit()">{{$not->outsiderUserName}}&nbsp;{{$not->msg}}</li>
+                                </form>
+                                
+                                @endif
+                            @endforeach
+                        </ul>
+                        
+                    </div>
+                    
+                </div>
                 
             @endauth
             @guest
@@ -72,6 +102,7 @@
             @endguest
             </ul>
         </nav>
+        
     </header>
     <main class='container-fluid'>
         <div class="row">
@@ -88,11 +119,14 @@
             @yield('content')
         </div>
     </main>
-         <footer>
-            <div id='footerWrapper'>
-                <p>Crud &copy; 2021</p>
-            </div>
+    <footer class="bg-dark text-center text-lg-start site-footer">
+    <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+           Rede social © 2020 Copyright:
             
-        </footer> 
+        </div>
+    <!-- Copyright -->
+    </footer>
     </body>
+    <script src="/js/events.js"></script>
 </html>

@@ -27,7 +27,7 @@
             
         <tr>
             <th scope="row">{{$user->id}}</th>
-            <td>{{$user->name}}</td>
+            <td><a href="/outsiderProfile/{{$user->id}}">{{$user->name}}</a></td>
             <td>{{$user->email}}</td>
             <td>{{$user->isAdmin}}</td>
             <td>

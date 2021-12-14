@@ -14,9 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PubController;
 
 //INDEX
     Route::get('/', [IndexController::class,'index']);
+
+//SEARCH DE PERFIL
+    Route::get('/searchPerfil',[UserController::class,'search'])->middleware('auth');
 
 //LOGIN
     Route::get('/logar', [UserController::class,'telaDelogin']);
@@ -32,7 +36,19 @@ use App\Http\Controllers\UserController;
     Route::post('/tabelaDeUsuarios/edit', [UserController::class,'edit'])->middleware('auth');
     Route::get('/tabelaDeUsuarios/exclude/{id}', [UserController::class,'destroy'])->middleware('auth');
 
-//SEARCH DE PERFIL
-    Route::get('/searchPerfil',[UserController::class,'search'])->middleware('auth');
+//USER
+    Route::get('/profile',[UserController::class,'profile'])->middleware('auth');
+    Route::get('/editUser/{id}', [UserController::class,'editUser'])->middleware('auth');
+
+
+//View Profile
+    Route::get('/outsiderProfile/{id}',[UserController::class, 'outsiderProfile'])->middleware('auth');
+    Route::get('/registerFollow/{outsider}',[UserController::class, 'follow'])->middleware('auth');
+    Route::get('/registerUnfollow/{outsider}',[UserController::class, 'unFollow'])->middleware('auth');
+    Route::get('/visualizarNotificação/{id}',[UserController::class, 'visualizarNotificação'])->middleware('auth');
+
+// Pub
+    Route::get('/createPub',[PubController::class, 'createPub'])->middleware('auth');
+
 
 

@@ -21,6 +21,8 @@
         <input type="hidden" name="imageOld"  value='{{$user->image}}'> <br>
 
 
+        <label for="Nome_Completo">Nome completo</label>
+        <input class='form-control' name="Nome_Completo" type="text" value='{{$user->Nome_Completo}}'>
         <label for="name">Username</label>
         <input class='form-control' name="name" type="text" value='{{$user->name}}'>
         <label for="email" >Email</label>
@@ -31,8 +33,15 @@
         @if(Auth::user()->isAdmin == 1)
             <label for="Admin">Permissão de administrador</label>
             <select name="Admin" class='form-select' id="admin">
-                <option value="1">Permissão de admin</option>
-                <option value="0">Permissão de usuario</option>
+                @if($user->isAdmin == 1)
+                    <option value="1">Permissão de admin</option>
+                    <option value="0">Permissão de usuario</option>
+                @else
+                    <option value="0">Permissão de usuario</option>
+                    <option value="1">Permissão de admin</option>
+                @endif
+                
+                
             </select>
         @else
             <input type="hidden" name="Admin" value="0">
