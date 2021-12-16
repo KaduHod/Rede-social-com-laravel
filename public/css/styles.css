@@ -1,4 +1,4 @@
-
+@import "jquery.flexdatalist.css";
 *{
     margin: 0;
     padding: 0;
@@ -286,3 +286,30 @@ footer{
 .indexBox{
     justify-self: flex-start;
 }
+.pubInput{
+    max-width: 100%;
+}
+.form-group{
+    margin-top:20px
+}
+#pubContainerMain{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#cardImagePreview{
+    width: 0%;
+    height: 00px;
+    border-radius: 8px;
+    border: 0px solid solid #e7e7e7;
+    box-shadow: none;
+    transition: 100ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+
+
+
+
+
+

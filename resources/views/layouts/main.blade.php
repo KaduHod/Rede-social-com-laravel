@@ -13,21 +13,28 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!-- Styles -->
-        <link rel="stylesheet" href="/css/estilos.css">
-        
-
+        <link rel="stylesheet" href="/css/styles.css">
+        <!-- Styles jQuery -->
+        <link href="/css/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <style>
             
         </style>
     </head>
     <body >
+    
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <header>
         <nav class="navbar navbar-expand-lg navbar-ligth">
             <div class="collapse navbar-collapse" id="navbar">
-                <a href="/" class="navbar">
-                    <ion-icon name="analytics" style='width:50px;height:50px;color:black'></ion-icon>
-                </a>
+                @if(Auth::user())
+                    <a href="/dashboard" class="navbar">
+                        <ion-icon name="analytics" style='width:50px;height:50px;color:black'></ion-icon>
+                    </a>
+                @else
+                    <a href="/" class="navbar">
+                        <ion-icon name="analytics" style='width:50px;height:50px;color:black'></ion-icon>
+                    </a>
+                @endif
             </div>
             
 
@@ -128,5 +135,12 @@
     <!-- Copyright -->
     </footer>
     </body>
-    <script src="/js/events.js"></script>
+
+    <script src="/js/jQuery3-6-0/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="/js/jquery-flexdatalist-2.3.0/jquery.flexdatalist.min.js">
+    <script src="/js/eventsCreatepub.js"></script>
+    <script src="/js/eventos.js"></script>
+    
+    
+    
 </html>

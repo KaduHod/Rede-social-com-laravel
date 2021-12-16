@@ -49,6 +49,7 @@ use App\Http\Controllers\PubController;
 
 // Pub
     Route::get('/createPub',[PubController::class, 'createPub'])->middleware('auth');
+    Route::post('/storePub',[PubController::class, 'store'])->middleware('auth');
 
 
 

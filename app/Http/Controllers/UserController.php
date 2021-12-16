@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserEditRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\Publicacao;
 
 
 class UserController extends Controller
 {
+    public function dashboard(){
+        $pubs = Publicacao::all();
+        return view('user.dashboard',['queryNotifications'=>[],'pubs'=>$pubs]);
+    }
     public function telaDelogin(){
         //$queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->where('visualized','=',0)->get();
         
@@ -24,6 +29,8 @@ class UserController extends Controller
     }
     public function liberarUser(Request $request){
         //dd($request->all());
+        $pubs = Publicacao::all();
+        
         $attr = $request->validate([
             'email' => 'required|string|email|',
             'password' => 'required|string|min:6'
@@ -33,7 +40,7 @@ class UserController extends Controller
             return redirect('/logar',)->with('msg','Senha ou email incorreto!');
         }else{
             $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
-            return view('user.dashboard',['queryNotifications'=>$queryNotifications]);
+            return view('user.dashboard',['queryNotifications'=>$queryNotifications,'pubs'=>$pubs]);
         }
     }
     public function reg(){
@@ -172,23 +179,36 @@ class UserController extends Controller
     public function outsiderProfile($id){
         $user = User::findOrFail($id);
         $queryFollows = DB::table('user_follows')->where('user_id',$user->id)->get();
-        
-        
-        $queryFollowers = DB::table('user_follows')->where('follows_id',$user->id)->get();  
+        $queryFollowers = DB::table('user_followers')->where('user_id',$user->id)->get();  
 
+        
+        //array com seguidores (is,name,image)
+        $queryFollowsIMAGENAME = [];
+        foreach($queryFollows as $follow){
+            array_push($queryFollowsIMAGENAME,DB::table('users')->select(['name','image','id'])->where('id','=',$follow->follows_id)->get());
+        }
+        
+        
+        
+
+        //array com seguidos (is,name,image)
+        $queryFollowersIMAGENAME = [];
+        foreach($queryFollowers as $follower){
+            array_push($queryFollowersIMAGENAME,DB::table('users')->select(['name','image','id'])->where('id','=',$follower->follower_id)->get());
+        }
+        
+        
         $idFollows = [];
         foreach($queryFollows as $follows){
             array_push($idFollows,$follows->follows_id);
         }
         
-        //var_dump($idFollows);
        
         $idFollowers = [];
         foreach($queryFollowers as $follower){
-            array_push($idFollowers,$follower->user_id);
+            array_push($idFollowers,$follower->follower_id);
         }
-        //var_dump($idFollowers);
-        // logica para de qual boão colocar na view
+        //dd($idFollowers);
 
         $Botao = null;
         if(Auth::user()->id == $user->id){
@@ -196,10 +216,14 @@ class UserController extends Controller
         }
                         
         $verificaSeUserJaSegueOutsiderProfile = array_search(Auth::user()->id,$idFollowers);
-        $actionEbotao = $verificaSeUserJaSegueOutsiderProfile > -1 ?  ["botao" => 'Deixar de seguir ', "action"=> "/registerUnfollow"]:["botao" => 'Seguir ', "action"=> "/registerFollow"];
-            
+        
+        $actionEbotao = $verificaSeUserJaSegueOutsiderProfile > -1 ? ["botao" => 'Deixar de seguir ', "action"=> "/registerUnfollow"] :["botao" => 'Seguir ', "action"=> "/registerFollow"] ;
+        
+        
         $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
-        return view('user.outsiderProfile',['user'=>$user, 'queryFollows'=>$queryFollows, 'queryFollowers'=>$queryFollowers,'actionEbotao'=>$actionEbotao,'queryNotifications'=>$queryNotifications]);
+
+
+        return view('user.outsiderProfile',['user'=>$user, 'queryFollows'=>$queryFollows, 'queryFollowers'=>$queryFollowers,'actionEbotao'=>$actionEbotao,'queryNotifications'=>$queryNotifications,'queryFollowsIMAGENAME'=>$queryFollowsIMAGENAME, 'queryFollowersIMAGENAME'=>$queryFollowersIMAGENAME]);
     }
 
     public function follow($outsiderid){
