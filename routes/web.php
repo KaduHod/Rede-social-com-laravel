@@ -16,6 +16,8 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PubController;
 
+
+
 //INDEX
     Route::get('/', [IndexController::class,'index']);
 
@@ -39,7 +41,7 @@ use App\Http\Controllers\PubController;
 //USER
     Route::get('/profile',[UserController::class,'profile'])->middleware('auth');
     Route::get('/editUser/{id}', [UserController::class,'editUser'])->middleware('auth');
-
+    
 
 //View Profile
     Route::get('/outsiderProfile/{id}',[UserController::class, 'outsiderProfile'])->middleware('auth');
@@ -50,6 +52,9 @@ use App\Http\Controllers\PubController;
 // Pub
     Route::get('/createPub',[PubController::class, 'createPub'])->middleware('auth');
     Route::post('/storePub',[PubController::class, 'store'])->middleware('auth');
-
+    Route::post('/comentPub',[PubController::class,'comment'])->middleware('auth');
+    Route::post('/coment',[PubController::class,'comment'])->middleware('auth');
+    Route::get('/like/{pubId}', [PubController::class, 'likePub'])->middleware('auth');
+    Route::get('/deslike/{pubId}', [PubController::class, 'deslikePub'])->middleware('auth');
 
 

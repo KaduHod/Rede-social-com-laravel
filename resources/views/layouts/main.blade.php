@@ -13,7 +13,7 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!-- Styles -->
-        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="/css/estilos.css">
         <!-- Styles jQuery -->
         <link href="/css/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <style>
@@ -140,6 +140,8 @@
     <script src="/js/jquery-flexdatalist-2.3.0/jquery.flexdatalist.min.js">
     <script src="/js/eventsCreatepub.js"></script>
     <script src="/js/eventos.js"></script>
+    <script src="/js/curtirDescurtir.js"></script>
+    <script src="/js/comments.js"></script>
     
     
     

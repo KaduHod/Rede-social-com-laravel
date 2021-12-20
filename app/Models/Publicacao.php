@@ -9,4 +9,11 @@ class Publicacao extends Model
 {
     use HasFactory;
     public $table = 'publicacao';
+    protected $casts = [
+        'userLinked' => 'array'
+    ];
+
+    // public function user(){
+    //     return $this->belongsTo('\Models\User');
+    // }   
 }
