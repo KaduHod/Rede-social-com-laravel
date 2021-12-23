@@ -13,7 +13,7 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!-- Styles -->
-        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="/css/styles.css">
         <!-- Styles jQuery -->
         <link href="/css/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <style>
@@ -62,11 +62,14 @@
                     </form>
                 </li>
                 <li class="nav-item liHeader"  >
-                    @if(count($queryNotifications)>0)
+                    
+                    {{-- @if(count($queryNotifications)>0)
                         <ion-icon id='not' style='width:30px; height: 30px;color:red;' name="apps"></ion-icon>
                     @else
                         <ion-icon id='not' style='width:30px; height: 30px;' name="apps"></ion-icon>
-                    @endif
+                    @endif --}}
+                    <ion-icon id='not' style='width:30px; height: 30px;' name="apps"></ion-icon>
+                    
                     
                 </li>
                 <a href="/profile">
@@ -83,14 +86,14 @@
                     <div class='flexContainerNot'>
                         <h2 style='margin-top:5px'>Notificações</h2>
                         <ul id='listaNot'>
-                            @foreach($queryNotifications as $not)
+                            {{-- @foreach($queryNotifications as $not)
                                 @if($not->visualized < 1)
                                 <form action="/visualizarNotificação/{{$not->id}}" style='width:100%' method="get">
                                         <li onclick="this.closest('form').submit()">{{$not->outsiderUserName}}&nbsp;{{$not->msg}}</li>
                                 </form>
                                 
                                 @endif
-                            @endforeach
+                            @endforeach --}}
                         </ul>
                         
                     </div>
@@ -141,7 +144,7 @@
     <script src="/js/eventsCreatepub.js"></script>
     <script src="/js/eventos.js"></script>
     <script src="/js/curtirDescurtir.js"></script>
-    <script src="/js/comments.js"></script>
+    <script src="/js/comentariosPub.js"></script>
     
     
     

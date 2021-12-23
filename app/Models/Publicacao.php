@@ -12,8 +12,15 @@ class Publicacao extends Model
     protected $casts = [
         'userLinked' => 'array'
     ];
+    protected $fillable = ['user_id','description','tags','image','userLinkedIds','userLinked','private'];
 
-    // public function user(){
-    //     return $this->belongsTo('\Models\User');
-    // }   
+    public function user(){
+         return $this->belongsTo('App\Models\User','user_id','id');
+    }   
+    public function likes(){
+        return $this->hasMany('App\Models\Like');
+    }
+    public function comments(){
+        return $this->hasMany('App\Models\Comment');
+    }
 }

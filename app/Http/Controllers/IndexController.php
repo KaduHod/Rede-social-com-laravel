@@ -11,7 +11,7 @@ use App\Models\Comments;
 class IndexController extends Controller
 {
     public function index(){
-        $pubs = Publicacao::orderBy('created_at','DESC')->get();
+        /* $pubs = Publicacao::orderBy('created_at','DESC')->get();
         
         
         $publicacoes = [];
@@ -25,10 +25,10 @@ class IndexController extends Controller
             //dd($publicacao);
             array_push($publicacoes, $publicacao);
             
-        }
+        } */
         //$queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->get();;
        
-        return view('welcome',['queryNotifications'=>[],'pubs'=>$publicacoes]);
+        return view('welcome');
     }
     
 }

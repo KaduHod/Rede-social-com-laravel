@@ -11,6 +11,8 @@ use App\Http\Requests\UserEditRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Publicacao;
 use App\Models\Comments;
+use App\Models\User_followers;
+use App\Models\User_follows;
 
 function ordenaPubsPorData($array_de_pubs){
     usort($array_de_pubs, function ( $a, $b ) {
@@ -25,42 +27,28 @@ function ordenaPubsPorData($array_de_pubs){
 
 class UserController extends Controller
 {
-    public function dashboard(){
-        $follows = DB::table('user_follows')->where('user_id','=',Auth::user()->id)->get();
-        //dd($follows);
+    public function dashboard(){        
+        $pubs = [];
         $follows_ids = [];
 
-        foreach($follows as $follow){
-            array_push($follows_ids, $follow->follows_id);
-        }   
-       
-        
-
-        $pubs = [];
+        foreach(Auth::user()->following as $follow){
+            array_push($follows_ids, $follow->id);
+        }    
         foreach($follows_ids as $id){
             $query = Publicacao::orderBy('created_at','DESC')->where('user_id','=',$id)->get();
             foreach($query as $pub){
                 array_push($pubs,$pub);
             }
         }
+        
         $pubsOrdenadasPorData = array_reverse(ordenaPubsPorData($pubs));
-        //dd($pubsOrdenadasPorData);
-        // $pubs = Publicacao::orderBy('created_at','DESC')->get();
-        // dd($pubs);
-         $publicacoes = [];
-        foreach($pubsOrdenadasPorData as $pub){
-            $comment = Comments::where('publicacao_id','=',$pub->id)->get();
-            $publicacao = [
-                'infoPub' => Publicacao::where('id','=',$pub->id)->get()[0],
-                'infoComent' => Comments::where('publicacao_id','=',$pub->id)->get(),
-                'infoLike' => DB::table('likes')->where('pubId','=',$pub->id)->get()
-            ];
-            //dd($publicacao);
-            array_push($publicacoes, $publicacao);
-            
+        
+        $arrayPubs = [];
+        foreach($pubsOrdenadasPorData as $pub){           
+            array_push($arrayPubs,$pub);
         }
-        //dd($publicacoes);
-        return view('user.dashboard',['queryNotifications'=>[],'pubs'=>$publicacoes]);
+        $pubs = $arrayPubs;
+        return view('user.dashboard',compact('pubs'));
     }
     
     public function telaDelogin(){
@@ -74,7 +62,7 @@ class UserController extends Controller
     }
     public function liberarUser(Request $request){
         //dd($request->all());
-        $pubs = Publicacao::orderBy('created_at','DESC')->get();
+        /* $pubs = Publicacao::orderBy('created_at','DESC')->get();
         
         $publicacoes = [];
         foreach($pubs as $pub){
@@ -89,15 +77,16 @@ class UserController extends Controller
             
         }
         
+         */
+        $msg = 'bem vindo';
         $attr = $request->validate([
             'email' => 'required|string|email|',
             'password' => 'required|string|min:6'
         ]);
-
         if (!Auth::attempt($attr)) {
             return redirect('/logar',)->with('msg','Senha ou email incorreto!');
         }else{
-            //$queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
+            //return redirect('/dashboard');
             return redirect('/dashboard');
         }
     }
@@ -140,15 +129,17 @@ class UserController extends Controller
     public function tabelaDeUsuarios(){
         $users = User::all();
         
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
         
-        return view('user.tabelaDeUsuarios',['users'=>$users, 'queryNotifications' => $queryNotifications]);
+        return view('user.tabelaDeUsuarios',compact(
+            'users'
+        ));
     }
     public function editUser($id){
         $user = User::findOrFail($id);
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->where('visualized','=',0)->get();
                
-        return view('user.editUser',['user'=>$user, 'queryNotifications'=> $queryNotifications]);
+        return view('user.editUser',compact(
+            'user'
+        ));
         
     }
     public function edit(UserEditRequest $request){
@@ -180,18 +171,17 @@ class UserController extends Controller
 
         $user->save();
 
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
+        
         
 
-        return redirect('tabelaDeUsuarios')->with('msg','Usuario atualizado com sucesso!',compact('queryNotifications'));    
+        return redirect('tabelaDeUsuarios')->with('msg','Usuario atualizado com sucesso!');    
         
     }
     public function destroy($id){
         
         User::where('id',$id)->delete();
 
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
-        return redirect('/tabelaDeUsuarios',['queryNotifications'=>$queryNotifications])->with('msg','Usuario deletado com sucesso!');
+        return redirect('/tabelaDeUsuarios')->with('msg','Usuario deletado com sucesso!');
     }
     public function search(){
         $search = request('search');
@@ -203,12 +193,18 @@ class UserController extends Controller
         }else{  
             $searchUser = User::all();
         }
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
+        //$queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
         
-        return view('user.search',['searchUser'=>$searchUser, 'search'=>$search, 'queryNotifications'=>$queryNotifications]) ;
+        return view('user.search',compact('searchUser','search')) ;
     }
     public function profile(){
-        $publicacoes = Publicacao::where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->get();
+        $Following = Auth::user()->following()->get();
+        $Followers = Auth::user()->followers()->get();
+        //$pubs = Auth::user()->publicacao()->get();
+        //dd(Auth::user()->publicacao);
+        //dd($pubs);
+        
+        /* $publicacoes = Publicacao::where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->get();
         $pubs = [];
         foreach($publicacoes as $pub){
             $comment = Comments::where('publicacao_id','=',$pub->id)->get();
@@ -220,143 +216,82 @@ class UserController extends Controller
             //dd($publicacao);
             array_push($pubs, $publicacao);
             
-        }
+        }*/
 
-        $queryFollows = DB::table('user_follows')->where('user_id',Auth::user()->id)->get();// query com os peris seguidos
-        $queryFollowers = DB::table('user_followers')->where('user_id',Auth::user()->id)->get();// query com os perfis seguidores
-                
-
-        //array com seguidores (is,name,image)
-        $queryFollowsIMAGENAME = [];
-        foreach($queryFollows as $follow){
-            array_push($queryFollowsIMAGENAME,DB::table('users')->select(['name','image','id'])->where('id','=',$follow->follows_id)->get());
-        }
-        
         
         
 
-        //array com seguidos (is,name,image)
-        $queryFollowersIMAGENAME = [];
-        foreach($queryFollowers as $follower){
-            array_push($queryFollowersIMAGENAME,DB::table('users')->select(['name','image','id'])->where('id','=',$follower->follower_id)->get());
-        }
         
-
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
     
-        return view('user.profile',compact('queryFollows','queryFollowers','queryNotifications','queryFollowsIMAGENAME','queryFollowersIMAGENAME','pubs'));
+        return view('user.profile',compact(
+            'Following',
+            'Followers'
+            //'queryNotifications',
+            //'pubs'
+            )
+        );
     }
     public function outsiderProfile($id){
         if(Auth::user()->id == $id){
             return redirect('/profile');
         }
 
-        $publicacoes = Publicacao::where('user_id','=',$id)->OrderBy('created_at','DESC')->get();
-
-
+        $user = User::findOrFail($id);
         $pubs = [];
-        foreach($publicacoes as $pub){
-            $comment = Comments::where('publicacao_id','=',$pub->id)->get();
+        foreach($user->publicacao as $pub){
+            //$comment = Comments::where('publicacao_id','=',$pub->id)->get();
             $publicacao = [
-                'infoPub' => Publicacao::where('id','=',$pub->id)->get()[0],
-                'infoComent' => Comments::where('publicacao_id','=',$pub->id)->get(),
-                'infoLike' => DB::table('likes')->where('pubId','=',$pub->id)->get()
+                'infoPub' => $pub,
+                'ownerPub' => $pub->user()->get()[0]
+                //'infoComent' => Comments::where('publicacao_id','=',$pub->id)->get(),
+                //'infoLike' => DB::table('likes')->where('pubId','=',$pub->id)->get()
             ];
             //dd($publicacao);
             array_push($pubs, $publicacao);
             
         }
-        //dd($pubs);
+        //dd($pubs); 
 
         
-
-        $user = User::findOrFail($id);
-        $queryFollows = DB::table('user_follows')->where('user_id',$user->id)->get();
-        $queryFollowers = DB::table('user_followers')->where('user_id',$user->id)->get();  
-        $stringQueryUserIdUserName = `[["`. $user->id .`","` . $user->name . `"]`;
-        //$pubs = Publicacao::where('user_id','=',$id)->get();
-        
-        //array com seguidores (is,name,image)
-        $queryFollowsIMAGENAME = [];
-        foreach($queryFollows as $follow){
-            array_push($queryFollowsIMAGENAME,DB::table('users')->select(['name','image','id'])->where('id','=',$follow->follows_id)->get());
+        $followings = [];
+        foreach(Auth::user()->following as $follower){
+            array_push($followings, $follower->id);
         }
-        
-        
-        
-
-        //array com seguidos (is,name,image)
-        $queryFollowersIMAGENAME = [];
-        foreach($queryFollowers as $follower){
-            array_push($queryFollowersIMAGENAME,DB::table('users')->select(['name','image','id'])->where('id','=',$follower->follower_id)->get());
-        }
-        
-        
-        $idFollows = [];
-        foreach($queryFollows as $follows){
-            array_push($idFollows,$follows->follows_id);
-        }
-        
-       
-        $idFollowers = [];
-        foreach($queryFollowers as $follower){
-            array_push($idFollowers,$follower->follower_id);
-        }
-        //dd($idFollowers);
-
-        $Botao = null;
-        
-                        
-        $verificaSeUserJaSegueOutsiderProfile = array_search(Auth::user()->id,$idFollowers);
+        $verificaSeUserJaSegueOutsiderProfile = array_search($id, $followings);
         
         $actionEbotao = $verificaSeUserJaSegueOutsiderProfile > -1 ? ["botao" => 'Deixar de seguir ', "action"=> "/registerUnfollow"] :["botao" => 'Seguir ', "action"=> "/registerFollow"] ;
         
+        $Following = $user->following()->get();
+        $Followers = $user->followers()->get();  
         
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
 
-
-        return view('user.outsiderProfile', compact('user', 'queryFollows','queryFollows','queryFollowers','actionEbotao','queryNotifications','queryFollowsIMAGENAME','queryFollowersIMAGENAME','pubs'));
+        return view('user.outsiderProfile', compact(
+            'user',
+            'Following',
+            'Followers',
+            'actionEbotao',
+            //'queryNotifications',
+            //'queryFollowsIMAGENAME',
+            //'queryFollowersIMAGENAME',
+            'pubs'
+        ));
     }
 
     public function follow($outsiderid){
-        DB::table('user_follows')->insert([
-            'user_id'=> Auth::user()->id,
-            'follows_id' => $outsiderid
-        ]);
-        DB::table('user_followers')->insert([
-            'user_id'=> $outsiderid,
-            'follower_id' => Auth::user()->id
-        ]);
+        $user = User::findOrFail($outsiderid);
+        Auth::user()->following()->attach($user);
         
-        //adicionar notificação de novo seguidor ao follower id
-        DB::table('notifications')->insert([
-            'user_id' => $outsiderid,
-            'msg' => 'começou a seguir você!',
-            'outsider_id' => Auth::user()->id,
-            'visualized' => 0,
-            'outsiderUserName' => Auth::user()->name
-        ]);
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
         return back();
     }
     public function unFollow($outsiderid){
-        DB::table('user_follows')->where('user_id','=',Auth::user()->id)->where('follows_id','=',$outsiderid)->delete();
-
-        DB::table('user_followers')->where('user_id','=',$outsiderid )->where('follower_id','=',Auth::user()->id)->delete();
-        
-        DB::table('notifications')->where('user_id','=',Auth::user()->id)->where('outsiderUser','=',$outsiderid)->insert([
-            'user_id' => $outsiderid,
-            'msg' => 'deixou de seguir você',
-            'outsider_id' => Auth::user()->id,
-            'visualized' => 0,
-            'outsiderUserName' => Auth::user()->name
-        ]);
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
+        $user = User::findOrFail($outsiderid);
+        Auth::user()->following()->detach($user);
+       
         return back();
     }
 
     public function visualizarNotificação($idNotificação){
-        DB::table('notifications')->where('id','=',$idNotificação)->update(['visualized'=>1]);
+       
         return redirect('/');
     }
     

@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PubController;
+use App\Http\Controllers\TesteController;
 
 
-
+Auth::routes();
 //INDEX
     Route::get('/', [IndexController::class,'index']);
 
@@ -25,7 +26,8 @@ use App\Http\Controllers\PubController;
     Route::get('/searchPerfil',[UserController::class,'search'])->middleware('auth');
 
 //LOGIN
-    Route::get('/logar', [UserController::class,'telaDelogin']);
+    //Route::get('/logar', [UserController::class,'telaDelogin']);
+    Route::get('/logar',array('as'=>'login',UserController::class,'telaDelogin'));
     Route::get('/registrar', [UserController::class,'telaDeRegistro']);
     Route::post('/login', [UserController::class,'liberarUser']);
     Route::get('/dashboard', [UserController::class,'dashboard'])->middleware('auth');
@@ -47,14 +49,24 @@ use App\Http\Controllers\PubController;
     Route::get('/outsiderProfile/{id}',[UserController::class, 'outsiderProfile'])->middleware('auth');
     Route::get('/registerFollow/{outsider}',[UserController::class, 'follow'])->middleware('auth');
     Route::get('/registerUnfollow/{outsider}',[UserController::class, 'unFollow'])->middleware('auth');
-    Route::get('/visualizarNotificação/{id}',[UserController::class, 'visualizarNotificação'])->middleware('auth');
+    //Route::get('/visualizarNotificação/{id}',[UserController::class, 'visualizarNotificação'])->middleware('auth');
 
 // Pub
     Route::get('/createPub',[PubController::class, 'createPub'])->middleware('auth');
     Route::post('/storePub',[PubController::class, 'store'])->middleware('auth');
-    Route::post('/comentPub',[PubController::class,'comment'])->middleware('auth');
+    //Route::post('/comentPub',[PubController::class,'comment'])->middleware('auth');
     Route::post('/coment',[PubController::class,'comment'])->middleware('auth');
     Route::get('/like/{pubId}', [PubController::class, 'likePub'])->middleware('auth');
     Route::get('/deslike/{pubId}', [PubController::class, 'deslikePub'])->middleware('auth');
+
+
+
+    //teste
+    Route::get('/teste',[TesteController::class,'OneToOne']);
+    Route::get('/addAdress',[TesteController::class,'OneToOneAddAdress']);
+    
+
+
+
 
 

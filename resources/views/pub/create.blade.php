@@ -32,7 +32,7 @@
                 list='list-users'
                 name="usuariosLinkados">
             <datalist id="list-users"  >
-                @foreach($followsUsers as $follower)
+                @foreach($followers as $follower)
                     <option class='follows_name' value="{{$follower->id}}">{{$follower->name}}</option>
                 @endforeach
             </datalist>

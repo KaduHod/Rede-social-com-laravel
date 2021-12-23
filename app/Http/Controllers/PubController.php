@@ -16,44 +16,16 @@ class PubController extends Controller
 {
     public function createPub(){
         $users = User::all();
-
-        $queryIdFollows = DB::table('user_follows')->select('follows_id')->where('user_id','=',Auth::user()->id)->get();// id dos usuarios seguidos pelo usuario logado
+        $followers = Auth::user()->followers()->get();
         
-        $followsid = []; // array com os id dos usuarios seguidos pelo usuario logado
-        foreach($queryIdFollows as $follows){
-            array_push($followsid, $follows->follows_id);
-        }
-        
-        $followsUsers = DB::table('users')->whereIn('id',$followsid)->get();// usuarios seguidos pelo usuario logado
-       
-        
-
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
-        $pubs = Publicacao::all();
-        
-        return view('pub.create', compact('queryNotifications','followsUsers'));
+        return view('pub.create', compact('followers'));
     }
 
-    public function store(Request $request){
-        //dd($request->all());
-        $queryNotifications = DB::table('notifications')->where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->where('visualized','=',0)->get();
-
-        $newPub = new Publicacao;
-
-        $newPub->user_id = Auth::user()->id;
-        $newPub->descricao = $request->description;
-        $newPub->tags = $request->tags;
-        $newPub->pubUserName = Auth::user()->name;
-        $newPub->profileUserImage = Auth::user()->image;
-        
-        
+    public function store(Request $request){     
         if($request->hasFile('image') && $request->file('image')->isValid()){
-            
             $extension = $request->image->extension();
             $imageName = md5($request->image->getClientOriginalName() . strtotime('now')) . '.' . $extension;
             $request->image->move(public_path('img/pubPictures'), $imageName);
-            $newPub->image = $imageName;
-
         }
         if($request->usuariosLinkados){
             $arrayUserLinkedIds = [];
@@ -62,25 +34,26 @@ class PubController extends Controller
             if(is_array($arrayUsuariosLinkados)){
                 foreach($arrayUsuariosLinkados as $userLinked){
                     $user = User::where('name','=',$userLinked)->get();
-                   // dd($user[0]->id);
                     array_push($arrayUsuariosLinkadosComId, [$user[0]->id,$user[0]->name]);
                     array_push($arrayUserLinkedIds, $user[0]->id);
                 }
-            }
-            //dd($arrayUserLinkedIds);
-            
-            $newPub->userLinkedIds = implode(',',$arrayUserLinkedIds);
-            $newPub->userLinked = $arrayUsuariosLinkadosComId;
+            }            
+            $userLinkedIds = implode(',',$arrayUserLinkedIds);
+            $userLinked = $arrayUsuariosLinkadosComId;
         }else{
-            $newPub->userLinkedIds = null;
-            $newPub->userLinked = null;
+            $userLinkedIds = null;
+            $userLinked = null;
         }
         
-        
-        
-        $newPub->private = intval($request->privado);
-        $newPub->save();
-
+        Auth::user()->publicacao()->create([
+            'user_id'=>Auth::user()->id,
+            'descricao'=>$request->description,
+            'tags'=>$request->tags,
+            'image'=>$imageName,
+            'userLinkedIds'=>$userLinkedIds,
+            'userLinked'=>$userLinked,
+            'private'=>intval($request->privado)
+        ]);
         return redirect('profile');
         
         
@@ -88,56 +61,47 @@ class PubController extends Controller
 
     public function likePub($idPub){
         $pub = Publicacao::findOrFail($idPub);
-        DB::table('likes')->insert([
-            'pubId'=>$idPub,
-            'likeCameFromUserId' => Auth::user()->id,
-            'UserLikeProfilePic' => Auth::user()->image,
-            'usernameLike' => Auth::user()->name
+        //dd(Auth::user()->publicacao);
+        $pub->likes()->create([
+            'user_id' => Auth::user()->id,
+            'pub_id' => $pub->id
         ]);
-
-        //criar dado de notificação para usuario dono da publicação com informaç~eos do auth::user()
-        DB::table('notifications')->insert([
-            'user_id' => $pub->user_id,
-            'outsider_Id' => Auth::user()->id,
-            'outsiderUserName' => Auth::user()->name,
-            'msg' => 'Curtiu a sua publicação!',
-            'visualized'=>0
-        ]);
-
+        
         return back();
     }
 
     public function deslikePub($idPub){
         $pub = Publicacao::findOrFail($idPub);
-        DB::table('likes')->where('pubId','=',$idPub)->where('likeCameFromUserId','=',Auth::user()->id)->delete();
-        DB::table('notifications')->insert([
-            'user_id' => $pub->user_id,
-            'outsider_Id' => Auth::user()->id,
-            'outsiderUserName' => Auth::user()->name,
-            'msg' => 'Descurtiu a sua publicação!',
-            'visualized'=>0
-        ]);
+        $pub->likes()->where('user_id','=',Auth::user()->id)->delete();
 
         return back();
     }
 
     public function comment(Request $request){
+        if($request->Comentario == '' || $request->Comentario == null ){
+            return back();
+        }
+        Auth::user()->comments()->create([
+            'publicacao_id' => $request->idPub,
+            'user_id' => Auth::user()->id,
+            'coment' => $request->Comentario
+        ]);
         
-        $coment = new Comments;
+        /* $coment = new Comments;
         $coment->publicacao_id = $request->idPub;
         $coment->user_coment_id = Auth::user()->id;
         $coment->user_name = Auth::user()->name;
         $coment->user_coment_profilePic = Auth::user()->image;
         $coment->coment = $request->Comentario;
-        $coment->save();
-        $pub = Publicacao::findOrFail($request->idPub);
+        $coment->save(); */
+        /* $pub = Publicacao::findOrFail($request->idPub);
         DB::table('notifications')->insert([
             'user_id' => $pub->user_id,
             'outsider_Id' => Auth::user()->id,
             'outsiderUserName' => Auth::user()->name,
             'msg' => 'Comentou na sua publicação!',
             'visualized'=>0
-        ]);
+        ]); */
 
         return back();
     }
