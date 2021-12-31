@@ -1,8 +1,14 @@
 @import "jquery.flexdatalist.css";
 *{
+    
     margin: 0;
     padding: 0;
     
+}
+.sombraCard{
+    box-shadow: 0px 0px 20px rgb(206, 206, 206);
+    /* background-color: #010340;
+    color: white; */
 }
 body::-webkit-scrollbar {
     width: 8px; 
@@ -41,11 +47,9 @@ header{
 }
 footer{
     width: 100%;
-    color: white;
+    color: rgb(0, 0, 0);
     bottom:0;
-    position: relative;
-    margin-top: 20px;
-    
+    position: relative;    
 }
 
 .mainContent{
@@ -159,9 +163,9 @@ footer{
     align-items: center;
     flex-direction: column;
     padding-top: 10px;
-    border-bottom: 1px solid grey;
-    border-top: 1px solid rgb(207, 207, 207);
-    box-shadow: 0px 10px 10px rgb(143, 143, 143);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.425);
+    border-top: 1px solid rgba(207, 207, 207, 0);
+    box-shadow: 0px 10px 10px rgba(143, 143, 143, 0);
     z-index: 10;
 }
 #imgProfileContainer{
@@ -193,9 +197,7 @@ footer{
     color: black;
 }
 #pubContainer{
-    padding: 20px;
-    background-color: rgb(204, 204, 204);
-    z-index: 9;
+    
 }
 #criarPub{
     text-decoration: none;
@@ -223,6 +225,7 @@ footer{
     width: 300px;
     height: 500px;
     padding: 0;
+    overflow-y: scroll;
     visibility: collapse;
     border: 1px solid rgb(196, 196, 196);
     box-shadow: 10px 20px 20px rgba(41, 41, 41, 0.575);
@@ -339,7 +342,9 @@ footer{
     justify-content: space-around;
     width: 100%;
     height: 100%;
-    
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    z-index: 9;
 }
 .cardPub{
 
@@ -350,10 +355,15 @@ footer{
 }
 .pubImage{
     width: 100%;
-    height: 60%;
+    height: 100%;
     background-position: center;
     background-size: cover;
     
+}
+.LinkToPub{
+    width: 100%;
+    height: 60%;
+    display: flex;
 }
 .pubUserPic{
     width: 35px;
@@ -426,6 +436,9 @@ footer{
     
 
 }
+.botaoDescrição{
+    color: rgb(123, 123, 238);
+}
 .ulComents{
     width: 100%;
     height: 0px;
@@ -437,7 +450,8 @@ footer{
     align-items: flex-start;
     list-style-type: none;
     margin:0 ;
-    /*transition: 10ms cubic-bezier(0.1, 0.03, 0.015, 0.955);*/
+    /*transition: 10ms cubic-bezier(0.1, 0.03, 0.015, 0.955);
+    */
 }
 .coment{
     list-style-type: none;
@@ -446,6 +460,7 @@ footer{
     justify-content: flex-start;
     
     margin-bottom: 5px;
+    border-bottom: 1px solid rgb(223, 223, 223);
    
     
 }
@@ -470,6 +485,7 @@ footer{
     margin-bottom: 1rem;
     color: grey;
     font-size: 13px;
+    
 }
 .dateComment{
     display: flex;
@@ -480,6 +496,7 @@ footer{
     
 }
 .comentInfoBox{
+    
     width: 100%;
 }
 .commentLinkDate{
@@ -488,3 +505,264 @@ footer{
 .comentText{
     margin-left: 10px;
 }
+.comentIcon{
+    color: rgb(173, 52, 52);
+    margin: auto 0px auto 10px;
+    font-size: 12px;
+}
+.comentIcon:hover{
+    color: rgb(173, 52, 52);
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#PubCardInfoSection{
+    min-width: 350px;
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgb(199, 199, 199);
+}
+.PubCardInfoUserInfo{
+    width:100%;
+    height: 10%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px;
+    padding-right: 15px;
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+.PubCardInfoUserInfo a:hover{
+    color: rgb(49, 49, 49);
+}
+.PubCardInfoUserInfo a{
+    text-decoration: none;
+    color: grey;
+    margin: 0px 0px 0px 5px;
+}
+.PubCardInfo{
+    width: 100%;
+    
+    height: 30%;
+}
+.PubCardInfoComments{
+    width: 100%;
+    height: 60%;
+    
+
+}
+.linkUserShowPub{
+    /* margin-right: 5px;
+    margin-left: 5px;  */
+}
+#PubCardInfoUserInfoImage{
+    width: 35px;
+    height: 100%;
+    margin-right: 10px;
+    
+    
+}
+.PubCardInfoUserInfoBox{
+    display:flex;
+    justify-content:flex-end; 
+    flex-wrap:wrap;
+    padding:3px;
+}
+.PubCardInfo{
+    display: flex;
+    flex-direction: column;
+
+}
+.PubCardInfoDate{
+    display: flex;
+    justify-content: flex-end;
+    
+    /* padding: 2px;
+    padding-right: 10px; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.card-body{
+    padding:5px 1rem 1rem 1rem;
+}
+.box_bottom_CardPub{
+    border-top: 1px solid rgb(206, 206, 206);
+}
+.nav-link{
+    color: #010340;
+    
+}
+.nav-link:hover{
+    
+    color: #01088d;
+    
+}
+.comentInputPosition{
+    align-self: flex-end;
+}
+.colorBox{
+    width: 50px;
+    height: 30px;
+    border-radius: 3px;
+}
+.orange{
+    background-color: orange;
+}
+.black{
+    background-color: rgb(0, 0, 0);
+}
+.white{
+    background-color: white;
+}
+.inputColor{
+    width: 50px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.input-option356 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 5px ;
+  }
+  
+  .input-option356:after {
+    content: "";
+    clear: both;
+  }
+  
+  .radio {
+    /*border: 1px solid #ccc;*/
+    box-sizing: border-box;
+    float: left;
+    height: 70px;
+    position: relative;
+    width: 90px;
+    border-radius: 2px ;
+  }
+  
+  .radio + .radio {
+    margin-left: 25px;
+    border-radius: 5px ;
+
+  }
+  
+  .radio label {
+    /*background: #fff no-repeat center center;*/
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    white-space: nowrap;border: 1px solid rgb(223, 223, 223);
+    
+    
+  }
+  .colorLabel{
+      border-radius: 5px ;
+      transition: 100ms;
+      
+  }
+  
+  .radio label span {
+    border: 1px solid rgb(136, 136, 136);
+    z-index: 1;
+    transition: 100ms;
+  }
+  .radio label input[type=radio] {
+    border: 1px solid rgb(136, 136, 136);
+    transition: 100ms;
+    all: unset;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    
+  }
+
+  
+  .radio label input[type=radio]:checked {
+    transition: 300ms;
+    border-radius: 5px ;
+    box-shadow: 0px 0px 20px rgb(59, 59, 59);
+  }
+  .radio label input[type=radio]:checked + span{
+    color: #ffffff;
+    transform: rotate(180deg);
+  }
+
+  .formColors{
+      padding: 20px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column ;
+      
+
+  }
+  .grupo_de_cores{
+      border: 0px   solid rgb(221, 221, 221);
+      padding: 30px;
+      border-radius: 10px;
+  }
+  
+
+
+
+  .tituloEditUserContainer{
+      width: 60%;
+      display: flex;
+      justify-content: space-around;
+  }
+  .tituloEditUserContainer a:hover {
+    color: rgb(168, 168, 168);
+  }
+  .tituloEditUserContainer a{
+    transition: 100ms;
+  }
+  .ProfileButtons{
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+  }

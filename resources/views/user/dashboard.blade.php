@@ -5,10 +5,10 @@
 
 <h1>Bem vindo {{Auth::user()->name}}</h1>
 
-<div id="pubContainer">
+<div id="pubContainer" >
     @foreach($pubs as $pub)
 
-    <div class="card cardPub">
+    <div class="card cardPub sombraCard">
         <div class="pubUserInfo">
             <div class="pubUserPic" style="background-image: url('/img/profilePictures/{{$pub->user->image}}"> 
                 
@@ -33,8 +33,10 @@
 
         </div>
         
-        <div class="pubImage" style="background-image: url('/img/pubPictures/{{$pub->image}}')">
-        </div>
+        <a href="/pub/{{$pub->id}}" class="LinkToPub">
+            <div class="pubImage" style="background-image: url('/img/pubPictures/{{$pub->image}}')">
+            </div>
+        </a>
          <div class="likeShareDateBox">
             <div>
                 @php
@@ -49,15 +51,15 @@
                                 @endphp
                             @endif
                     @endforeach  
-                    <a href="{{$link}}/{{$pub->id}}"><ion-icon class="icone  {{$classe}} "  name="heart"></ion-icon></a>
+                    <a href="{{$link}}/{{$pub->id}}"><ion-icon class="icone  {{$classe}} "  name="heart-outline"></ion-icon></a>
                     <div class="countBox">{{count($pub->likes)}} </div>                    
             </div> 
             <div>
-                <ion-icon class="icone iconeComentarios" name="create" id='{{$pub->id}} '></ion-icon>
+                <ion-icon class="icone iconeComentarios" name="create-outline" id='{{$pub->id}} '></ion-icon>
                 <div class="countBox">{{count($pub->comments)}}</div>
             </div>
             <div>
-                <ion-icon class="icone "  name="share"></ion-icon>
+                <ion-icon class="icone "  name="share-social-outline"></ion-icon>
                 <div class="countBox"></div>
             </div>
         </div> 
@@ -81,6 +83,7 @@
             
         <ul class="ulComents" id="ulComments{{$pub->id}}">
             <h5>Comentarios</h5>
+            
             @if(count($pub->comments)> 0)
                 @foreach($pub->comments as $comment)
                     <li class="coment">
@@ -96,10 +99,14 @@
                                     $dataFormatada = $new_date_coment->format('d/m/y - H:i')  ;
                                 @endphp
                                 <div class="dateComment">{{$dataFormatada}}</div>
+                                @if($comment->user->id == Auth::user()->id)
+                                    <a class='comentIcon'  href="/editComent/{{$pub->id}}/{{$comment->id}}">Excluir</ion-icon></a>
+                                @endif
                             </div>
-                            <div class="comentText">
+                            <div  class="comentText">
                                 {{$comment->coment}}
                             </div>
+                            
                         </div>
                         
                      </li>

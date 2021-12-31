@@ -13,7 +13,9 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <!-- Styles -->
-        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="/css/Pub_.css">
+        <link rel="stylesheet" href="/css/chat.css">
         <!-- Styles jQuery -->
         <link href="/css/jquery.flexdatalist.min.css" rel="stylesheet" type="text/css">
         <style>
@@ -22,8 +24,7 @@
     </head>
     <body >
     
-    <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-    <header>
+    <header class="sombraCard">
         <nav class="navbar navbar-expand-lg navbar-ligth">
             <div class="collapse navbar-collapse" id="navbar">
                 @if(Auth::user())
@@ -51,6 +52,9 @@
                 <li class="nav-item">
                     <a href="/createPub" class="nav-link">Publicações</a>
                 </li>
+                <li class="nav-item">
+                    <a href="/chat" class="nav-link">Chat</a>
+                </li>
                 
                 <li class="nav-item">
                     <form action="/logout" method='post' >
@@ -68,7 +72,7 @@
                     @else
                         <ion-icon id='not' style='width:30px; height: 30px;' name="apps"></ion-icon>
                     @endif --}}
-                    <ion-icon id='not' style='width:30px; height: 30px;' name="apps"></ion-icon>
+                    <ion-icon id='not' style='width:30px; height: 30px;' name="apps-outline"></ion-icon>
                     
                     
                 </li>
@@ -115,7 +119,7 @@
         
     </header>
     <main class='container-fluid'>
-        <div class="row">
+        <div class='row'>
             @if(session('msg'))
                 <p class="msg" style='
                     width: 100%;
@@ -129,9 +133,9 @@
             @yield('content')
         </div>
     </main>
-    <footer class="bg-dark text-center text-lg-start site-footer">
+    <footer class="text-center text-lg-start site-footer">
     <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        <div class="text-center p-3 footer sombraCard">
            Rede social © 2020 Copyright:
             
         </div>
@@ -139,12 +143,15 @@
     </footer>
     </body>
 
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="/js/jQuery3-6-0/jquery-3.6.0.min.js" type="text/javascript"></script>
     <script src="/js/jquery-flexdatalist-2.3.0/jquery.flexdatalist.min.js">
     <script src="/js/eventsCreatepub.js"></script>
     <script src="/js/eventos.js"></script>
     <script src="/js/curtirDescurtir.js"></script>
     <script src="/js/comentariosPub.js"></script>
+    <script src="/js/chat.js"></script>
     
     
     

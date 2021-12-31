@@ -12,7 +12,7 @@ class Publicacao extends Model
     protected $casts = [
         'userLinked' => 'array'
     ];
-    protected $fillable = ['user_id','description','tags','image','userLinkedIds','userLinked','private'];
+    protected $fillable = ['user_id','descricao','tags','image','userLinkedIds','userLinked','private'];
 
     public function user(){
          return $this->belongsTo('App\Models\User','user_id','id');
@@ -22,5 +22,8 @@ class Publicacao extends Model
     }
     public function comments(){
         return $this->hasMany('App\Models\Comment');
+    }
+    public function tags(){
+        return $this->belongsToMany('App\Models\Tag','publicacao_tag','pub_id','tag_id');
     }
 }

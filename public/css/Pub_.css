@@ -1,0 +1,80 @@
+.PubShowContainer{
+    display: flex;
+    width: 100vw;
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+}
+.PubCard{
+    display: flex;
+    width: fit-content;
+    height: 80%;
+    /* border: 1px solid rgb(199, 199, 199); */
+    border-radius: 10px;
+    
+}
+#PubCardImage{
+    max-height:100;
+    object-fit: fill;
+    border-radius:10px 0px 0px 10px ;
+}
+#PubInformações{
+    width: 400px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#PubUserNameImages{
+    display: flex;
+    justify-content:flex-end;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+#PubTagsDescription{
+    padding: 5px 15px 5px 15px;
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+.PubDescription{
+    
+}
+.PubCommentSection{
+    width: 100%;
+    height: 260px;
+    overflow-y: scroll;
+}
+.PubComment{
+    width: 100%;
+    height: fit-content;
+    border-bottom: 1px solid rgb(199, 199, 199);
+    display: flex;
+    padding: 5px;
+}
+.PubCommentPic{
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
+    background-position: center;
+    background-size: cover;
+    justify-self: flex-start;
+}
+.PubCommentInfoNameDate{
+    
+}
+.PubCommentInfo{
+    width: 100%;
+    padding-left: 10px;
+}
+.PubCommentInfoComentario{
+    font-size: 13px;
+}
+.like{
+    width: 10%;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center ;
+}
+.likeShareComment{
+    display: flex;
+}

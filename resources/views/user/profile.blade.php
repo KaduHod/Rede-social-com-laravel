@@ -2,7 +2,13 @@
 
 @section('title','Crud')
 @section('content')
-<div  id='profileTop'>
+<div  id='profileTop' 
+@if(Auth::user()->customLayout != null)
+    class='{{Auth::user()->customLayout->Cor_de_header}}'
+@else
+    class=''
+@endif 
+>
     <div id='imgProfileContainer' style="
                         background-image:url('/img/profilePictures/{{Auth::user()->image}}')
                     " class='rounded-circle imgProfileBox'>
@@ -11,7 +17,7 @@
     <div id="profileInfoBasic">
         <a id='follows' >Seguidores: {{Auth::user()->followers()->count()}} </a>
         <a id='followers' >Seguindo: {{Auth::user()->following()->count()}} </a>
-        <span>Publicações: X</span>
+        <span>Publicações: {{Auth::user()->publicacao->count()}}</span>
     </div>
     <form action="" method="get">
         <!-- <button style='margin-top:10px; color:white' class='btn btn-dark' type="submit">Seguir</button> -->
@@ -64,10 +70,10 @@
         <ion-icon id='iconeCriaPub' style='margin-top:20px;' name="add-circle"></ion-icon>
     </a>
 </div>
-<div id="pubContainer">
+<div id="pubContainer" >
     @foreach(Auth::user()->publicacao as $pub)
 
-    <div class="card cardPub">
+    <div class="card cardPub sombraCard">
         <div class="pubUserInfo">
             <div class="pubUserPic" style="background-image: url('/img/profilePictures/{{Auth::user()->image}}"> 
                 
@@ -92,8 +98,10 @@
 
         </div>
         
-        <div class="pubImage" style="background-image: url('/img/pubPictures/{{$pub->image}}')">
-        </div>
+        <a href="/pub/{{$pub->id}}" class="LinkToPub">
+            <div class="pubImage" style="background-image: url('/img/pubPictures/{{$pub->image}}')">
+            </div>
+        </a>
         <div class="likeShareDateBox">
             <div>
                 @php
@@ -108,15 +116,15 @@
                                 @endphp
                             @endif
                     @endforeach  
-                    <a href="{{$link}}/{{$pub->id}}"><ion-icon class="icone  {{$classe}} "  name="heart"></ion-icon></a>
+                    <a href="{{$link}}/{{$pub->id}}"><ion-icon class="icone  {{$classe}} "  name="heart-outline"></ion-icon></a>
                     <div class="countBox">{{count($pub->likes)}} </div>                
             </div>
             <div>
-                <ion-icon class="icone iconeComentarios" name="create" id='{{$pub->id}}'></ion-icon>
+                <ion-icon class="icone iconeComentarios" name="create-outline" id='{{$pub->id}}'></ion-icon>
                 <div class="countBox">{{count($pub->comments)}} </div>
             </div>
             <div>
-                <ion-icon class="icone "  name="share"></ion-icon>
+                <ion-icon class="icone "  name="share-social-outline"></ion-icon>
                 <div class="countBox"></div>
             </div>
         </div>
@@ -142,13 +150,34 @@
             <h5>Comentarios</h5>
             @if(count($pub->comments)> 0)
                 @foreach($pub->comments as $comment)
-                    <li class="coment"><div class='comentUserPic' style="
+                    <li class="coment">
+                        <div class='comentUserPic' style="
                         background-image: url('/img/profilePictures/{{$comment->user->image}}')
-                        "></div> {{$comment->coment}} </li>
+                        "></div>
+                        
+                        <div class="comentInfoBox">
+                            <div class="commentLinkDate">
+                                <a class="linkUserName" style='margin-rigth:10px;' href="/outsiderProfile/{{$comment->user->id}}">{{$comment->user->name}}</a>
+                                @php
+                                    $new_date_coment = new DateTime($comment->created_at) ;
+                                    $dataFormatada = $new_date_coment->format('d/m/y - H:i')  ;
+                                @endphp
+                                <div class="dateComment">{{$dataFormatada}}</div>
+                                @if($comment->user->id == Auth::user()->id)
+                                    <a class='comentIcon'  href="/editComent/{{$pub->id}}/{{$comment->id}}">Excluir</a>
+                                @endif
+                            </div>
+                            <div  class="comentText">
+                                {{$comment->coment}}
+                            </div>
+                            
+                        </div>
+                        
+                     </li>
                 @endforeach
-            @else
+            @else 
                 <p class="coment">Sem comentarios ainda.</p>
-            @endif   
+             @endif     
         </ul>
             
             

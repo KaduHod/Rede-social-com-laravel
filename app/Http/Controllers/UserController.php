@@ -13,6 +13,8 @@ use App\Models\Publicacao;
 use App\Models\Comments;
 use App\Models\User_followers;
 use App\Models\User_follows;
+use App\Models\Chat;
+use App\Models\Message;
 
 function ordenaPubsPorData($array_de_pubs){
     usort($array_de_pubs, function ( $a, $b ) {
@@ -20,10 +22,6 @@ function ordenaPubsPorData($array_de_pubs){
     });
     return $array_de_pubs;
 }
-
-
-
-
 
 class UserController extends Controller
 {
@@ -86,7 +84,6 @@ class UserController extends Controller
         if (!Auth::attempt($attr)) {
             return redirect('/logar',)->with('msg','Senha ou email incorreto!');
         }else{
-            //return redirect('/dashboard');
             return redirect('/dashboard');
         }
     }
@@ -200,9 +197,10 @@ class UserController extends Controller
     public function profile(){
         $Following = Auth::user()->following()->get();
         $Followers = Auth::user()->followers()->get();
-        //$pubs = Auth::user()->publicacao()->get();
-        //dd(Auth::user()->publicacao);
-        //dd($pubs);
+        //dd(Auth::user()->conversation);
+        // $pubs = Auth::user()->publicacao()->get();
+        // dd(Auth::user()->publicacao);
+        // dd($pubs);
         
         /* $publicacoes = Publicacao::where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->get();
         $pubs = [];
@@ -218,11 +216,6 @@ class UserController extends Controller
             
         }*/
 
-        
-        
-
-        
-    
         return view('user.profile',compact(
             'Following',
             'Followers'
@@ -281,6 +274,10 @@ class UserController extends Controller
         $user = User::findOrFail($outsiderid);
         Auth::user()->following()->attach($user);
         
+        /* $chat = Chat::create([]);
+        $chat->users()->attach(Auth::user()->id);
+        $chat->users()->attach($user->id); */
+        
         return back();
     }
     public function unFollow($outsiderid){
@@ -294,5 +291,44 @@ class UserController extends Controller
        
         return redirect('/');
     }
+
+    public function customizeLayout(){
+        
+        return view('user.editLayout');
+        
+    }
+    public function storeLayout(Request $request){
+        //dd($request->all());
+        if(Auth::user()->customLayout){
+            /* Auth::user()->customLayout->Cor_de_fundo_profile = $request->Cor_de_fundo_perfil;
+            Auth::user()->customLayout->Cor_de_fundo_corpo = $request->Cor_de_fundo_corpo;
+            Auth::user()->customLayout->Cor_do_header = $request->Cor_de_header_perfil;
+            Auth::user()->customLayout->Cor_do_footer = $request->Cor_de_footer_corpo; */
+
+
+            Auth::user()->customLayout()->where('user_id','=',Auth::user()->id)->update([
+                'Cor_de_fundo_profile' => $request->Cor_de_fundo_perfil,
+                'Cor_de_fundo_corpo' => $request->Cor_de_fundo_corpo,
+                'Cor_do_header' => $request->Cor_de_header_perfil,
+                'Cor_do_footer' => $request->Cor_de_footer_corpo
+            ]);
+
+            
+        }else{
+            Auth::user()->customLayout()->create([
+                'Cor_de_fundo_profile' => $request->Cor_de_fundo_perfil,
+                'Cor_de_fundo_corpo' => $request->Cor_de_fundo_corpo,
+                'Cor_do_header' => $request->Cor_de_header_perfil,
+                'Cor_do_footer' => $request->Cor_de_footer_corpo
+            ]);
+        }
+
+        
+        
+        //dd(Auth::user()->customLayout->get());
+        return redirect('/profile');
+    }
+
+    
     
 }

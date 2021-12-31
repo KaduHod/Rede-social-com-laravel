@@ -22,6 +22,7 @@ class PubController extends Controller
     }
 
     public function store(Request $request){     
+        //dd($request->all());
         if($request->hasFile('image') && $request->file('image')->isValid()){
             $extension = $request->image->extension();
             $imageName = md5($request->image->getClientOriginalName() . strtotime('now')) . '.' . $extension;
@@ -86,23 +87,19 @@ class PubController extends Controller
             'user_id' => Auth::user()->id,
             'coment' => $request->Comentario
         ]);
-        
-        /* $coment = new Comments;
-        $coment->publicacao_id = $request->idPub;
-        $coment->user_coment_id = Auth::user()->id;
-        $coment->user_name = Auth::user()->name;
-        $coment->user_coment_profilePic = Auth::user()->image;
-        $coment->coment = $request->Comentario;
-        $coment->save(); */
-        /* $pub = Publicacao::findOrFail($request->idPub);
-        DB::table('notifications')->insert([
-            'user_id' => $pub->user_id,
-            'outsider_Id' => Auth::user()->id,
-            'outsiderUserName' => Auth::user()->name,
-            'msg' => 'Comentou na sua publicação!',
-            'visualized'=>0
-        ]); */
-
         return back();
+    }
+    public function destroyComment($pubId, $commentId){
+        //dd(Auth::user()->comments());
+        //$pub = Publicacao::findOrFail($pubId);
+        //dd($pub->comments()->where('id','=',$commentId)->get());
+        Auth::user()->comments()->where('id','=',$commentId)->delete();
+        return back();
+
+    }
+    public function show($pubId){
+        $pub = Publicacao::findOrFail($pubId);
+        
+       return view('pub.show',compact('pub'));
     }
 }

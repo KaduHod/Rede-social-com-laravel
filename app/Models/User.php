@@ -56,5 +56,13 @@ class User extends Authenticatable
     public function comments(){
         return $this->hasMany('App\Models\Comment');
     }
-    
+    public function customLayout(){
+        return $this->HasOne('App\Models\Customização_do_usuario');
+    }
+    public function chats(){
+        return $this->belongsToMany('App\Models\Chat');
+    }
+    public function messages(){
+        return $this->hasMany('App\Models\Message');
+    }
 }

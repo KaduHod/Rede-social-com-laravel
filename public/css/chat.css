@@ -1,0 +1,227 @@
+.container{
+    display: flex;
+    width: 100vw;
+    height: 85vh;
+    background-image: url('/img/layoutPictures/chatBackground1.jpg');
+    background-position: center;
+    background-size: cover;
+    padding: 0;
+}
+.boxFollowers{
+    
+    width: 25%; 
+    height:100%;
+    overflow-y: scroll;
+    border-right: 1px solid rgb(199, 199, 199);
+    display: flex;
+    list-style: none;
+    flex-direction: column;
+    padding-left: 0;
+    background-color: rgba(128, 128, 128, 0.877); 
+    
+}
+
+.move_lado{
+   animation: 300ms 0ms  cubic-bezier(0.68, -0.55, 0.265, 1.55) slidein forwards;
+}
+@keyframes slidein {
+    from {
+      padding-left: 5px;
+      box-shadow: none;
+    }
+  
+    to {
+        padding-left:20px;
+      border-color: rgba(196, 196, 196, 0.336);
+      background-color: rgb(255, 255, 255);
+      box-shadow: 0px 0px 10px rgb(167, 167, 167);
+    }
+  }
+
+
+
+#leftSideChat{
+    width: 25%;
+    height:100%;
+    background-color: rgba(255, 255, 255, 0.815);
+    border-right: 1px solid rgb(196, 196, 196);
+}
+
+#leftSideChatOptions{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid rgb(196, 196, 196);
+    
+}
+#leftSideChatOptions li{
+    transition: 100ms;
+    transform: scale(1.2);
+}
+#leftSideChatOptions li:hover{
+    transform: scale(1.5);
+}
+.none{
+    display: none;
+}
+.white2{
+    color: rgb(31, 31, 31);
+}
+.iconeLeftSideChat{
+    color: rgb(114, 114, 114);
+}
+.option{
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/*
+#chats{
+    display: flex;
+    width: 100%;
+    height:100%;
+    border: 1px solid red;
+}
+#leftSideChatContainers{
+    display: flex;
+    width: 100%;
+    height:92%;
+    overflow-x: scroll;
+    border: 1px solid rgb(38, 0, 255);
+}
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.chatUsersOption{
+    padding: 5px;
+    min-height: 8vh;
+    height: fit-content;
+    border-bottom: 1px solid rgb(196, 196, 196);
+    /* border-right: 1px solid rgb(196, 196, 196); */
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    transition: 300ms;
+}
+.chatUsersOption:hover{
+   /* background-color: rgb(197, 197, 197) ;*/
+}
+.chatUserProfilePic{
+    width: 40px;
+    height: 40px;
+    border-radius: 25px;
+    background-size: cover;
+    background-position: center;
+    /* box-shadow: 5px 5px 20px rgb(54, 54, 54); */
+}
+.chatUsersNameLastText{
+    width: calc(100% - 60px);
+    height: 100%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    justify-content: center;
+}
+.textContainer{
+    width: 75%;
+    height: 100%;
+    flex-direction: column;
+    display: flex;
+}
+.infoConversation{
+    width: 100%;
+    height: 10%;
+    background-color: rgba(255, 255, 255, 0.815);
+    display: flex;
+    border-bottom:1px solid rgb(196, 196, 196);
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    justify-content: space-between;
+}
+.textsCoversation{
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+    background-color: rgb(255, 255, 255);
+    padding: 10px 40px 5px 40px;
+    display: flex;
+    flex-direction:column;
+    list-style: none;
+    margin-bottom: 0;
+}
+.msgTextConversation {
+    width: fit-content;
+    background-color: white;
+    height: fit-content;
+    padding: 10px;
+    margin-bottom: 5px ;
+}
+.sendBox{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    background-color: rgb(255, 255, 255);
+    align-items: center;
+    justify-content: center;
+}
+.chatInput{
+    width: 80%;
+    height: 60%;
+    border-radius: 20px;
+    border: none;
+    border: 1px solid rgb(196, 196, 196);
+}
+.chatInput:active{
+    border: none;
+}
+.botaoChat{
+    margin-left: 20px;
+    border-radius: 20px;
+    background-color: white;
+    border: 1px solid rgb(196, 196, 196);
+    height: 60%;
+    font-size: 13px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nomeUser{
+    font-size: 15px;
+    margin: 0;
+}
+.shadow{
+    box-shadow: 5px 5px 10px black;
+}
+.chatUsersName a:hover{
+    color: rgb(54, 54, 54);
+}
+.userMSG{
+    align-self: flex-end;
+    border-radius: 10px 10px 0px 10px;
+}
+.guestMSG{
+    align-self: flex-start;
+    border-radius: 10px 10px 10px 0px;
+}

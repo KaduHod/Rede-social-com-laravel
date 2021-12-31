@@ -12,7 +12,10 @@
             </ul>
         </div>
     @endif
-    <h1>Editar perfil</h1>
+    <div class="tituloEditUserContainer" style="display: flex;heigth:fit-content;">
+        <h1>Editar perfil</h1> <a href="/editLayout"> <h1>Customizar layout</h1></a>
+    </div>
+    
     <form action="/tabelaDeUsuarios/edit" class='form-control editForm' method="post" enctype='multipart/form-data'>
         @csrf
         <input type="hidden" name="id" value='{{$user->id}}'>
