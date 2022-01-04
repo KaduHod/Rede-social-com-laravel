@@ -52,7 +52,15 @@
                             $new_date = new DateTime($coment->created_at) ;
                             $dataFormatada = $new_date->format('d/m/y - H:i')  ;
                         @endphp
-                        <div class="PubCommentInfoNameDate "> <a href="/outsiderProfile/">{{$coment->user->name}}</a>  <span class="date" >{{$dataFormatada}}</span> </div>
+                        <div class="PubCommentInfoNameDate ">
+                            <a href="/outsiderProfile/">{{$coment->user->name}}</a>
+                            <span class="date" >{{$dataFormatada}}</span>
+                            @if(Auth::user()->id == $coment->user_id)
+                                
+                            <a class="comentIcon" href="/editComent/{{$coment->publicacao->id}}/{{$coment->id}}">Excluir</a>
+                            @endif
+                            
+                        </div>
                         <div class="PubCommentInfoComentario">
                             {{$coment->coment}}
                         </div>

@@ -2,7 +2,44 @@
 
 @section('title','Crud')
 @section('content')
-<div  id='profileTop'>
+<div id="profile_top">
+
+</div>
+ <div  id='profileTop2' class="">
+     <div id="backgroundArea" style="background-image: url('/img/slider/1.jpg');" >
+        <div id="next">
+            <ion-icon class='iconeSlider' name="caret-back-outline"></ion-icon>
+        </div>
+        <div id="previous">
+            <ion-icon  class='iconeSlider' name="caret-forward-outline" ></ion-icon>
+        </div>
+     </div>
+    <div id="userInfo">
+        <div id="UserPhoto" style="background-image: url('/img/profilePictures/{{$user->image}}')">
+
+        </div>
+        
+        <div id="UserNameDescription" >
+            <h3 class="m-b-0">{{$user->Nome_Completo}}</h3>
+            <div id="Description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus eligendi, porro consectetur sed tempore alias perferendis aut suscipit et? Modi, molestiae voluptate. Consequatur culpa quam optio modi corrupti doloribus vitae.
+            </div>
+            <div id="buttonsProfile">
+                <form action="{{$actionEbotao['action']}}/{{$user->id}}" method='get'>
+                    <button   class='btnProfile' type='submit'>{{$actionEbotao['botao']}}</button>
+                </form>
+                <a href="/chat" class="btnProfile">Enviar mensagem</a>
+            </div>
+        </div>
+        <div id="infoProfile">
+            <a id='follows' class="infoProfileArea" >{{$user->followers()->count()}}  <span> Seguidores</span></a>
+            <a id='followers' class="infoProfileArea"> {{$user->following()->count()}} <span>Seguindo</span> </a>
+            <span class="infoProfileArea"> {{$user->publicacao->count()}} <span>Publicações</span></span>
+        </div>
+    </div>
+    
+</div> 
+{{-- <div  id='profileTop'>
     <div id="imgProfileContainer" style="
                         background-image:url('/img/profilePictures/{{$user->image}}')
                     " class='rounded-circle'>
@@ -39,7 +76,7 @@
         </ul>
                         
     </div>                
-</div>
+</div> --}}
 
 
 

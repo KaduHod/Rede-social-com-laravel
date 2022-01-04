@@ -41,6 +41,18 @@
     width: 100%;
     height: 260px;
     overflow-y: scroll;
+
+}
+.PubCommentSection::-webkit-scrollbar{
+    width: 8px; 
+}
+.PubCommentSection::-webkit-scrollbar-track{
+    background: rgb(201, 201, 201); 
+}
+.PubCommentSection::-webkit-scrollbar-thumb{
+    width: 6px;
+    background-color: rgb(136, 136, 136);    /* color of the scroll thumb */
+    border-radius: 20px;  
 }
 .PubComment{
     width: 100%;

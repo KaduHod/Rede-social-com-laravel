@@ -17,7 +17,7 @@
                 <ion-icon id="followers" name="people"></ion-icon>
             </li>
         </ul>
-        <div id="leftSideChatContainers">
+        <div id="leftSideChatContainers" class="rollbar">
             <ul id="boxChats" class="option">
                 @foreach ($chats as $chat)
                 
@@ -164,7 +164,7 @@
                 <h6 class="nomeUser" id="nomeUser">{{$chatPadrao['guestUser']->name}}</h6>
                 <ion-icon name="build-outline"></ion-icon>
             </div>
-            <ul class="textsCoversation">
+            <ul class="textsCoversation rollbar2" >
                 @foreach ($chatPadrao['mensagens'] as $msg)
                     @if($msg->user_id == Auth::user()->id)
                         <li class="msgTextConversation shadow  userMSG">
@@ -188,7 +188,7 @@
                     <h6 class="nomeUser" id="nomeUser">{{Auth::user()->following[0]->name}}</h6>
                     <ion-icon name="build-outline"></ion-icon>
                 </div>
-                <div class="textsCoversation">
+                <div class="textsCoversation rollbar2" >
                     nenhuma mensagem ainda
                 </div>
             @else{{--Caso user não tenho nao siga ninguem--}}
@@ -198,7 +198,7 @@
                     <h6 class="nomeUser" id="nomeUser"></h6>
                     <ion-icon name="build-outline"></ion-icon>
                 </div>
-                <div class="textsCoversation">
+                <div class="textsCoversation rollbar2" >
                     nenhuma mensagem ainda
                 </div>
 

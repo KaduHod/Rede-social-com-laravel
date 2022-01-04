@@ -2,29 +2,43 @@
 
 @section('title','Crud')
 @section('content')
-<div  id='profileTop' 
-@if(Auth::user()->customLayout != null)
-    class='{{Auth::user()->customLayout->Cor_de_header}}'
-@else
-    class=''
-@endif 
->
-    <div id='imgProfileContainer' style="
-                        background-image:url('/img/profilePictures/{{Auth::user()->image}}')
-                    " class='rounded-circle imgProfileBox'>
+<div id="profile_top">
 
-    </div>
-    <div id="profileInfoBasic">
-        <a id='follows' >Seguidores: {{Auth::user()->followers()->count()}} </a>
-        <a id='followers' >Seguindo: {{Auth::user()->following()->count()}} </a>
-        <span>Publicações: {{Auth::user()->publicacao->count()}}</span>
-    </div>
-    <form action="" method="get">
-        <!-- <button style='margin-top:10px; color:white' class='btn btn-dark' type="submit">Seguir</button> -->
-        <a style='margin-top:10px; color:white' class='btn btn-dark' href="/editUser/{{Auth::user()->id}}"> Editar perfil   </a>
-    </form>
-    
 </div>
+ <div  id='profileTop2' class="">
+     <div id="backgroundArea" style="background-image: url('/img/slider/1.jpg');" >
+        <div id="next">
+            <ion-icon class='iconeSlider' name="caret-back-outline"></ion-icon>
+        </div>
+        <div id="previous">
+            <ion-icon  class='iconeSlider' name="caret-forward-outline" ></ion-icon>
+        </div>
+     </div>
+    <div id="userInfo">
+        <div id="UserPhoto" style="background-image: url('/img/profilePictures/{{Auth::user()->image}}')">
+
+        </div>
+        
+        <div id="UserNameDescription" >
+            <h3 class="m-b-0">{{Auth::user()->Nome_Completo}}</h3>
+            <div id="Description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus eligendi, porro consectetur sed tempore alias perferendis aut suscipit et? Modi, molestiae voluptate. Consequatur culpa quam optio modi corrupti doloribus vitae.
+            </div>
+            <div id="buttonsProfile">
+                <a style=' color:white' class=' btnProfile' href="/editUser/{{Auth::user()->id}}"> Editar perfil   </a>
+                <a class='btnProfile' style=' color:white' id='criarPub' href="/createPub/">
+                    Criar publicação 
+                </a>
+            </div>
+        </div>
+        <div id="infoProfile">
+            <a id='follows' class="infoProfileArea" >{{Auth::user()->followers()->count()}}  <span> Seguidores</span></a>
+            <a id='followers' class="infoProfileArea"> {{Auth::user()->following()->count()}} <span>Seguindo</span> </a>
+            <span class="infoProfileArea"> {{Auth::user()->publicacao->count()}} <span>Publicações</span></span>
+        </div>
+    </div>
+    
+</div> 
 
 
 
@@ -61,19 +75,16 @@
         </ul>              
     </div>           
 </div>
-
-
-
-<div id="pubContainer">
-    <a class='flexcenter' id='criarPub' href="/createPub/">
-        <h1>Criar publicação </h1>
-        <ion-icon id='iconeCriaPub' style='margin-top:20px;' name="add-circle"></ion-icon>
-    </a>
-</div>
+<div id="pubLogoContainer">
+    <div id="pubLogo">
+        <ion-icon id="pubLogoIcon" name="layers-outline">
+    </div>
+    
+</ion-icon></div>
 <div id="pubContainer" >
+    
     @foreach(Auth::user()->publicacao as $pub)
-
-    <div class="card cardPub sombraCard">
+    <div class="card cardPub">
         <div class="pubUserInfo">
             <div class="pubUserPic" style="background-image: url('/img/profilePictures/{{Auth::user()->image}}"> 
                 

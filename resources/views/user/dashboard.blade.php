@@ -3,12 +3,10 @@
 @section('title','Crud')
 @section('content')
 
-<h1>Bem vindo {{Auth::user()->name}}</h1>
-
 <div id="pubContainer" >
     @foreach($pubs as $pub)
 
-    <div class="card cardPub sombraCard">
+    <div class="card cardPub">
         <div class="pubUserInfo">
             <div class="pubUserPic" style="background-image: url('/img/profilePictures/{{$pub->user->image}}"> 
                 

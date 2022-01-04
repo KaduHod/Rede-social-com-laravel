@@ -25,7 +25,7 @@ function ordenaPubsPorData($array_de_pubs){
 
 class UserController extends Controller
 {
-    public function dashboard(){        
+    public function dashboard(){     
         $pubs = [];
         $follows_ids = [];
 
@@ -84,7 +84,7 @@ class UserController extends Controller
         if (!Auth::attempt($attr)) {
             return redirect('/logar',)->with('msg','Senha ou email incorreto!');
         }else{
-            return redirect('/dashboard');
+            return redirect('/');
         }
     }
     public function reg(){
@@ -197,24 +197,7 @@ class UserController extends Controller
     public function profile(){
         $Following = Auth::user()->following()->get();
         $Followers = Auth::user()->followers()->get();
-        //dd(Auth::user()->conversation);
-        // $pubs = Auth::user()->publicacao()->get();
-        // dd(Auth::user()->publicacao);
-        // dd($pubs);
         
-        /* $publicacoes = Publicacao::where('user_id','=',Auth::user()->id)->orderBy('created_at','DESC')->get();
-        $pubs = [];
-        foreach($publicacoes as $pub){
-            $comment = Comments::where('publicacao_id','=',$pub->id)->get();
-            $publicacao = [
-                'infoPub' => Publicacao::where('id','=',$pub->id)->get()[0],
-                'infoComent' => Comments::where('publicacao_id','=',$pub->id)->get(),
-                'infoLike' => DB::table('likes')->where('pubId','=',$pub->id)->get()
-            ];
-            //dd($publicacao);
-            array_push($pubs, $publicacao);
-            
-        }*/
 
         return view('user.profile',compact(
             'Following',
@@ -225,6 +208,7 @@ class UserController extends Controller
         );
     }
     public function outsiderProfile($id){
+
         if(Auth::user()->id == $id){
             return redirect('/profile');
         }
@@ -232,19 +216,13 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $pubs = [];
         foreach($user->publicacao as $pub){
-            //$comment = Comments::where('publicacao_id','=',$pub->id)->get();
             $publicacao = [
                 'infoPub' => $pub,
                 'ownerPub' => $pub->user()->get()[0]
-                //'infoComent' => Comments::where('publicacao_id','=',$pub->id)->get(),
-                //'infoLike' => DB::table('likes')->where('pubId','=',$pub->id)->get()
             ];
-            //dd($publicacao);
             array_push($pubs, $publicacao);
             
         }
-        //dd($pubs); 
-
         
         $followings = [];
         foreach(Auth::user()->following as $follower){
@@ -263,9 +241,6 @@ class UserController extends Controller
             'Following',
             'Followers',
             'actionEbotao',
-            //'queryNotifications',
-            //'queryFollowsIMAGENAME',
-            //'queryFollowersIMAGENAME',
             'pubs'
         ));
     }
